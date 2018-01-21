@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import com.assignment.notely.db.NoteDatabase
 import com.assignment.notely.di.modules.AppModule
 import com.assignment.notely.di.modules.DBModule
+import com.assignment.notely.ui.detail.DetailViewModel
 import com.assignment.notely.ui.newnote.NewNoteViewModel
 import com.assignment.notely.ui.viewnote.AdapterViewModel
 import com.assignment.notely.ui.viewnote.NoteViewModel
@@ -27,5 +28,6 @@ interface AppComponent {
     fun inject(viewModel: NewNoteViewModel)
     fun inject(viewModel: NoteViewModel)
     fun inject(viewModel: AdapterViewModel)
+    fun inject(viewmodel : DetailViewModel)
 
 }
