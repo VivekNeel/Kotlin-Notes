@@ -3,4 +3,7 @@
     <color name="colorPrimary">#EEEEEE</color>
     <color name="colorPrimaryDark">#E0E0E0</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="bg_row_background">#fa315b</color>
+
 </resources>

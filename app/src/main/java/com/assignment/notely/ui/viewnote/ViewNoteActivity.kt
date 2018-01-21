@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -14,8 +15,22 @@ import com.assignment.notely.databinding.ActivityViewnoteBinding
 import com.assignment.notely.db.entities.Note
 import com.assignment.notely.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_viewnote.*
+import android.support.v7.widget.helper.ItemTouchHelper
+import com.assignment.notely.RecyclerItemTouchHelper
 
-class ViewNoteActivity : BaseActivity() {
+
+class ViewNoteActivity : BaseActivity(), RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int, position: Int) {
+        if (viewHolder is ViewNoteAdapter.ViewHolder) {
+
+            val deletedIndex = viewHolder.itemId
+
+            // remove the item from recycler view
+            adapter.removeItem(viewHolder.adapterPosition)
+
+
+        }
+    }
 
     lateinit var adapter: ViewNoteAdapter
     lateinit var noteViewModel: NoteViewModel
@@ -24,6 +39,8 @@ class ViewNoteActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         init()
     }
+
+
 
     fun init() {
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
@@ -47,6 +64,10 @@ class ViewNoteActivity : BaseActivity() {
         binding.toolbar.setTitleTextAppearance(this, R.style.CustomToolbarFont)
         notesRecycler.layoutManager = LinearLayoutManager(this)
         notesRecycler.adapter = adapter
+
+        val itemTouchHelperCallback = RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this)
+        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(notesRecycler)
+
 
     }
 

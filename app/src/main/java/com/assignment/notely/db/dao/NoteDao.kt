@@ -1,10 +1,7 @@
 package com.assignment.notely.db.dao
 
 import android.arch.lifecycle.LiveData
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import com.assignment.notely.db.entities.Note
 import com.assignment.notely.db.entities.RoomConfig
 
@@ -25,5 +22,8 @@ interface NoteDao {
 
     @Query(RoomConfig.QUERY_NOTE_FAV)
     fun getFavNotes(): LiveData<List<Note>>
+
+    @Delete
+    fun deleteNote(note: Note)
 
 }

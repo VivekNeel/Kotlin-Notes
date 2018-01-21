@@ -6,6 +6,7 @@ import android.content.Intent
 import com.assignment.notely.NotelyApplication
 import com.assignment.notely.db.NoteDatabase
 import com.assignment.notely.db.entities.Note
+import com.assignment.notely.ui.detail.DetailViewActivity
 import com.assignment.notely.ui.newnote.NewNoteActivity
 import java.text.SimpleDateFormat
 import java.util.*
@@ -39,7 +40,7 @@ class AdapterViewModel(var app: Application) : AndroidViewModel(app) {
     }
 
     fun onClick() {
-        val intent = Intent(app, NewNoteActivity::class.java)
+        val intent = Intent(app, DetailViewActivity::class.java)
         intent.putExtra("noteId", note.id)
         app.startActivity(intent)
     }
@@ -51,5 +52,8 @@ class AdapterViewModel(var app: Application) : AndroidViewModel(app) {
         }).start()
     }
 
+    fun deleteNote(note: Note) {
+        Thread({ db.noteDao().deleteNote(note) })
+    }
 
 }
