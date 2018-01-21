@@ -5,6 +5,8 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -41,7 +43,6 @@ class ViewNoteActivity : BaseActivity(), RecyclerItemTouchHelper.RecyclerItemTou
     }
 
 
-
     fun init() {
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
         adapter = ViewNoteAdapter(application as Application, emptyList())
@@ -62,7 +63,9 @@ class ViewNoteActivity : BaseActivity(), RecyclerItemTouchHelper.RecyclerItemTou
         binding.viewModel = noteViewModel
         setActionBar(binding.toolbar)
         binding.toolbar.setTitleTextAppearance(this, R.style.CustomToolbarFont)
-        notesRecycler.layoutManager = LinearLayoutManager(this)
+        val layoutManager = LinearLayoutManager(this)
+        notesRecycler.addItemDecoration(DividerItemDecoration(notesRecycler.context, layoutManager.orientation))
+        notesRecycler.layoutManager = layoutManager
         notesRecycler.adapter = adapter
 
         val itemTouchHelperCallback = RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this)
@@ -78,7 +81,7 @@ class ViewNoteActivity : BaseActivity(), RecyclerItemTouchHelper.RecyclerItemTou
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_home, menu)
-        return super.onCreateOptionsMenu(menu)
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
