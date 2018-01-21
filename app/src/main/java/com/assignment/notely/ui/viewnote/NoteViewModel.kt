@@ -47,4 +47,6 @@ class NoteViewModel(var app: Application) : AndroidViewModel(app) {
     fun fabClick() {
         app.startActivity(Intent(app, NewNoteActivity::class.java))
     }
+
+
 }
