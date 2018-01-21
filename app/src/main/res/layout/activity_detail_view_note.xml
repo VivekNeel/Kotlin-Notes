@@ -17,8 +17,7 @@
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:text="test"
-           >
+            android:text="test">
 
             <Toolbar
                 android:id="@+id/viewToolbar"
@@ -32,13 +31,27 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="test test teste"/>
+                android:paddingLeft="20dp"
+                android:text="@={model.note.title}"
+
+                android:textColor="@color/colorBlack"
+                android:textSize="23dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:text="@={model.note.title}"
+                android:textColor="@color/colorGrey"
+                android:textSize="10dp" />
         </android.support.design.widget.AppBarLayout>
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="left"
+            android:padding="20dp"
             android:text="@={model.note.description}" />
 
     </LinearLayout>
