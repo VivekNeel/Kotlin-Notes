@@ -1,29 +1,30 @@
 package com.assignment.notely.ui.viewnote
 
 import android.app.Application
+import android.arch.lifecycle.LifecycleRegistry
 import android.arch.lifecycle.LifecycleRegistryOwner
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
+import android.graphics.Color
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
 import com.assignment.notely.R
+import com.assignment.notely.RecyclerItemTouchHelper
 import com.assignment.notely.databinding.ActivityViewnoteBinding
 import com.assignment.notely.db.entities.Note
-import kotlinx.android.synthetic.main.activity_viewnote.*
-import android.support.v7.widget.helper.ItemTouchHelper
-import com.assignment.notely.RecyclerItemTouchHelper
-import android.arch.lifecycle.LifecycleRegistry
-import android.graphics.Color
-import android.view.Gravity
 import com.assignment.notely.hide
 import com.assignment.notely.model.Filter
 import com.assignment.notely.show
+import kotlinx.android.synthetic.main.activity_viewnote.*
 import kotlinx.android.synthetic.main.app_bar_default.*
 import kotlinx.android.synthetic.main.layout_drawer.*
 
@@ -33,6 +34,7 @@ class ViewNoteActivity : AppCompatActivity(), LifecycleRegistryOwner, RecyclerIt
     private val mRegistry = LifecycleRegistry(this)
     private lateinit var noteAdapter: NoteAdapter
     private lateinit var noteViewModel: NoteViewModel
+    private lateinit var binding: ActivityViewnoteBinding
 
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int, position: Int) {
@@ -55,6 +57,7 @@ class ViewNoteActivity : AppCompatActivity(), LifecycleRegistryOwner, RecyclerIt
 
     }
 
+
     private fun initViewmodel() {
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
         noteAdapter = NoteAdapter(application as Application, mutableListOf())
@@ -65,7 +68,7 @@ class ViewNoteActivity : AppCompatActivity(), LifecycleRegistryOwner, RecyclerIt
         })
 
 
-        val binding = DataBindingUtil.setContentView<ActivityViewnoteBinding>(this, R.layout.activity_viewnote)
+        binding = DataBindingUtil.setContentView<ActivityViewnoteBinding>(this, R.layout.activity_viewnote)
         binding.viewModel = noteViewModel
 
     }
@@ -92,7 +95,7 @@ class ViewNoteActivity : AppCompatActivity(), LifecycleRegistryOwner, RecyclerIt
         fav.setOnClickListener {
             com.assignment.notely.model.Filter.markedFav = !com.assignment.notely.model.Filter.markedFav
             if (com.assignment.notely.model.Filter.markedFav) {
-                fav.setTextColor(Color.GREEN)
+                fav.setTextColor(ContextCompat.getColor(this, R.color.colorTeal))
                 fav.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.filter_item_selected, 0)
             } else {
                 fav.setTextColor(Color.WHITE)
@@ -103,7 +106,7 @@ class ViewNoteActivity : AppCompatActivity(), LifecycleRegistryOwner, RecyclerIt
         starText.setOnClickListener {
             com.assignment.notely.model.Filter.markedStar = !com.assignment.notely.model.Filter.markedStar
             if (com.assignment.notely.model.Filter.markedStar) {
-                starText.setTextColor(Color.GREEN)
+                starText.setTextColor(ContextCompat.getColor(this, R.color.colorTeal))
                 starText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.filter_item_selected, 0)
             } else {
                 starText.setTextColor(Color.WHITE)
@@ -113,13 +116,7 @@ class ViewNoteActivity : AppCompatActivity(), LifecycleRegistryOwner, RecyclerIt
         }
 
         filter.setOnClickListener {
-            Filter.clearFilters()
-            invalidateOptionsMenu()
-            closeDrawer()
-            noteViewModel.getNotes().observe(this@ViewNoteActivity, Observer {
-                if (it != null)
-                    populateList(it)
-            })
+           onFilterClearClicked()
         }
         applyButton.setOnClickListener {
             invalidateOptionsMenu()
@@ -155,6 +152,20 @@ class ViewNoteActivity : AppCompatActivity(), LifecycleRegistryOwner, RecyclerIt
             }
         }
 
+    }
+
+    private fun onFilterClearClicked(){
+        Filter.clearFilters()
+        fav.setTextColor(Color.WHITE)
+        fav.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.filter_item_not_selected, 0)
+        starText.setTextColor(Color.WHITE)
+        starText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.filter_item_not_selected, 0)
+        invalidateOptionsMenu()
+        closeDrawer()
+        noteViewModel.getNotes().observe(this@ViewNoteActivity, Observer {
+            if (it != null)
+                populateList(it)
+        })
     }
 
     private fun closeDrawer() {

@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.assignment.notely.Constants
 import com.assignment.notely.R
 import com.assignment.notely.databinding.ActivityDetailViewNoteBinding
 import com.assignment.notely.ui.newnote.NewNoteActivity
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_detail_view_note.*
  */
 class DetailViewActivity : AppCompatActivity(), LifecycleRegistryOwner {
 
-    lateinit var binding: ActivityDetailViewNoteBinding
+    private lateinit var activityDetailViewNoteBinding: ActivityDetailViewNoteBinding
     internal var id: Int = 0
 
     private val mRegistry = LifecycleRegistry(this)
@@ -30,9 +31,9 @@ class DetailViewActivity : AppCompatActivity(), LifecycleRegistryOwner {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_detail_view_note)
-        id = intent.getIntExtra("noteId", -1)
-        binding.model = DetailViewModel(application, id)
+        activityDetailViewNoteBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail_view_note)
+        id = intent.getIntExtra(Constants.EXTRAS_NOTE_ID, -1)
+        activityDetailViewNoteBinding.model = DetailViewModel(application, id)
         setSupportActionBar(viewToolbar)
         with(supportActionBar!!) {
             title = ""
@@ -52,7 +53,7 @@ class DetailViewActivity : AppCompatActivity(), LifecycleRegistryOwner {
         when (id) {
             R.id.editNote -> {
                 val intent = Intent(this, NewNoteActivity::class.java)
-                intent.putExtra("noteId", this.id)
+                intent.putExtra(Constants.EXTRAS_NOTE_ID, this.id)
                 this.startActivity(intent)
             }
         }

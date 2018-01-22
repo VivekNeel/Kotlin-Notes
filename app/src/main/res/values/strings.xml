@@ -6,4 +6,11 @@
 
     <string name="hint_note_title">Enter note title</string>
     <string name="hint_note_desc">Enter note description</string>
+    <string name="no_notes_available">No notes available</string>
+    <string name="filter">Filter</string>
+    <string name="favourite">Favourite</string>
+    <string name="starred">Starred</string>
+    <string name="apply">Apply</string>
+    <string name="edit">edit</string>
+    <string name="save">Save</string>
 </resources>

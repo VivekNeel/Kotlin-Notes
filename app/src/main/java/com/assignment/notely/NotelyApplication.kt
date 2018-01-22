@@ -1,6 +1,7 @@
 package com.assignment.notely
 
 import android.app.Application
+import com.assignment.notely.di.components.AppComponent
 import com.assignment.notely.di.components.DaggerAppComponent
 import com.assignment.notely.di.modules.AppModule
 import com.assignment.notely.di.modules.DBModule
@@ -10,7 +11,7 @@ import com.assignment.notely.di.modules.DBModule
  */
 class NotelyApplication : Application() {
 
-    val appComponent by lazy { DaggerAppComponent.builder().appModule(AppModule(this)).dBModule(DBModule()).build() }
+    val appComponent: AppComponent by lazy { DaggerAppComponent.builder().appModule(AppModule(this)).dBModule(DBModule()).build() }
 
     override fun onCreate() {
         super.onCreate()

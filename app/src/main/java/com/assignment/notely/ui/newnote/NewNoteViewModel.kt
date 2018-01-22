@@ -10,7 +10,7 @@ import javax.inject.Inject
 /**
  * Created by vivek on 21/01/18.
  */
-class NewNoteViewModel(var listener: () -> Unit, app: NotelyApplication, var id: Int = -1) : AndroidViewModel(app) {
+class NewNoteViewModel(private var listener: () -> Unit, app: NotelyApplication, var id: Int = -1) : AndroidViewModel(app) {
 
 
     @Inject
@@ -20,17 +20,8 @@ class NewNoteViewModel(var listener: () -> Unit, app: NotelyApplication, var id:
 
     fun getNote() {
         Thread(Runnable { note = db.noteDao().getNote(id) }).start()
-      //  putFav()
 
     }
-
-
-//    fun putFav() {
-//
-//        Thread({
-//            note.markedFav = true
-//            db.noteDao().insertNote(note) }).start()
-//    }
 
     init {
         app.appComponent.inject(this)

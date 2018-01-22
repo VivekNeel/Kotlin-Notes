@@ -12,7 +12,7 @@ import javax.inject.Inject
 /**
  * Created by vivek on 21/01/18.
  */
-class DetailViewModel(var app: Application, var id: Int = -1) : AndroidViewModel(app) {
+class DetailViewModel(app: Application, var id: Int = -1) : AndroidViewModel(app) {
 
     @Inject
     lateinit var db: NoteDatabase
@@ -37,16 +37,14 @@ class DetailViewModel(var app: Application, var id: Int = -1) : AndroidViewModel
         val today = Date()
         return if (note.createdAt.day == today.day) {
             val time = todayTimeFormat.format(note.createdAt)
-            "Last Updated Today at : $time"
+            "Last Updated :Today at $time"
         } else if (note.createdAt.month == today.month && note.createdAt.year == note.createdAt.year)
             currentTimeFormat.format(note.createdAt)
         else
             passTimeFormat.format(note.createdAt)
     }
 
-    fun getNote() {
+    private fun getNote() {
         Thread(Runnable { note = db.noteDao().getNote(id) }).start()
-        //  putFav()
-
     }
 }
