@@ -18,12 +18,12 @@
         <activity
             android:name=".ui.newnote.NewNoteActivity"
             android:parentActivityName=".ui.viewnote.ViewNoteActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme" />
 
         <activity
             android:name=".ui.detail.DetailViewActivity"
             android:parentActivityName=".ui.viewnote.ViewNoteActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

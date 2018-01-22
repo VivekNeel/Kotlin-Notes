@@ -3,4 +3,7 @@
 
     <string name="menu_note_create">Create</string>
     <string name="menu_note_filter">Filter</string>
+
+    <string name="hint_note_title">Enter note title</string>
+    <string name="hint_note_desc">Enter note description</string>
 </resources>

@@ -93,8 +93,10 @@ class ViewNoteActivity : AppCompatActivity(), LifecycleRegistryOwner, RecyclerIt
             com.assignment.notely.model.Filter.markedFav = !com.assignment.notely.model.Filter.markedFav
             if (com.assignment.notely.model.Filter.markedFav) {
                 fav.setTextColor(Color.GREEN)
+                fav.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.filter_item_selected, 0)
             } else {
                 fav.setTextColor(Color.WHITE)
+                fav.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.filter_item_not_selected, 0)
             }
         }
 
@@ -102,8 +104,11 @@ class ViewNoteActivity : AppCompatActivity(), LifecycleRegistryOwner, RecyclerIt
             com.assignment.notely.model.Filter.markedStar = !com.assignment.notely.model.Filter.markedStar
             if (com.assignment.notely.model.Filter.markedStar) {
                 starText.setTextColor(Color.GREEN)
+                starText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.filter_item_selected, 0)
             } else {
                 starText.setTextColor(Color.WHITE)
+                starText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.filter_item_not_selected, 0)
+
             }
         }
 
@@ -159,7 +164,7 @@ class ViewNoteActivity : AppCompatActivity(), LifecycleRegistryOwner, RecyclerIt
     private fun populateList(list: MutableList<Note>) {
         if (list.isEmpty()) {
             emptyText.show()
-        } else{
+        } else {
             emptyText.hide()
         }
         noteAdapter.addItems(list)

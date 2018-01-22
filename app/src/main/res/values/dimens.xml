@@ -2,4 +2,12 @@
 <resources>
     <dimen name="ic_delete">30dp</dimen>
     <dimen name="home_toolbar_height">85dp</dimen>
+
+    <dimen name="title_note">30sp</dimen>
+    <dimen name="title_desc">12sp</dimen>
+    <dimen name="title_time">10sp</dimen>
+
+    <dimen name="title_desc_view">20sp</dimen>
+
+    <dimen name="margin_left_note_title">50dp</dimen>
 </resources>
