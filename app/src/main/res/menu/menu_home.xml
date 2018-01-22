@@ -1,13 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/noteCreate"
-        android:title="Share"
-        app:showAsAction="always"
-        android:icon="@drawable/filter" />
+    <item
+        android:id="@+id/noteCreate"
+        android:icon="@drawable/ic_create_black_24dp"
+        android:title="@string/menu_note_create"
+        app:showAsAction="ifRoom" />
 
-    <item android:id="@+id/noteFilter"
-        android:title="Share"
-        app:showAsAction="always"
-        android:icon="@drawable/create" />
+    <item
+        android:id="@+id/noteFilter"
+        android:icon="@drawable/filter_not_selected"
+        android:title="@string/menu_note_filter"
+        app:showAsAction="ifRoom" />
+
+
 </menu>

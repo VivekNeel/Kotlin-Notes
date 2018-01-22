@@ -5,6 +5,7 @@ import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.content.Intent
+import android.view.View
 import com.assignment.notely.NotelyApplication
 import com.assignment.notely.db.NoteDatabase
 import com.assignment.notely.db.entities.Note

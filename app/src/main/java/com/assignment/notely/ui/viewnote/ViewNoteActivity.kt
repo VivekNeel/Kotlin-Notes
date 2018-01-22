@@ -21,6 +21,9 @@ import com.assignment.notely.RecyclerItemTouchHelper
 import android.arch.lifecycle.LifecycleRegistry
 import android.graphics.Color
 import android.view.Gravity
+import com.assignment.notely.hide
+import com.assignment.notely.model.Filter
+import com.assignment.notely.show
 import kotlinx.android.synthetic.main.app_bar_default.*
 import kotlinx.android.synthetic.main.layout_drawer.*
 
@@ -104,8 +107,18 @@ class ViewNoteActivity : AppCompatActivity(), LifecycleRegistryOwner, RecyclerIt
             }
         }
 
+        filter.setOnClickListener {
+            Filter.clearFilters()
+            invalidateOptionsMenu()
+            closeDrawer()
+            noteViewModel.getNotes().observe(this@ViewNoteActivity, Observer {
+                if (it != null)
+                    populateList(it)
+            })
+        }
         applyButton.setOnClickListener {
-            drawer_layout.closeDrawer(Gravity.RIGHT, true)
+            invalidateOptionsMenu()
+            closeDrawer()
             with(com.assignment.notely.model.Filter) {
                 if (markedFav && markedStar) {
                     noteViewModel.getFavAndStarredNotes().observe(this@ViewNoteActivity, Observer {
@@ -139,13 +152,31 @@ class ViewNoteActivity : AppCompatActivity(), LifecycleRegistryOwner, RecyclerIt
 
     }
 
+    private fun closeDrawer() {
+        drawer_layout.closeDrawer(Gravity.RIGHT, true)
+    }
+
     private fun populateList(list: MutableList<Note>) {
+        if (list.isEmpty()) {
+            emptyText.show()
+        } else{
+            emptyText.hide()
+        }
         noteAdapter.addItems(list)
         noteAdapter.notifyDataSetChanged()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_home, menu)
+        val item = menu.findItem(R.id.noteFilter)
+        if (item != null) {
+            if (Filter.markedFav || Filter.markedStar) {
+                item.setIcon(R.drawable.filter_selected)
+            } else {
+                item.setIcon(R.drawable.filter_not_selected)
+            }
+        }
+
         return true
     }
 
@@ -153,7 +184,10 @@ class ViewNoteActivity : AppCompatActivity(), LifecycleRegistryOwner, RecyclerIt
         val id = item.itemId
         when (id) {
             R.id.noteCreate -> noteViewModel.fabClick()
-            R.id.noteFilter -> drawer_layout.openDrawer(Gravity.RIGHT, true)
+            R.id.noteFilter -> {
+                drawer_layout.openDrawer(Gravity.RIGHT, true)
+
+            }
         }
         return super.onOptionsItemSelected(item)
     }
