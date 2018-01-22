@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="end"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:drawablePadding="20dp"
+        android:drawableRight="@drawable/ic_clear_black_24dp"
+        android:text="Filter"
+        android:textColor="@color/colorWhite"
+        android:textSize="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/fav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:drawablePadding="20dp"
+        android:drawableRight="@drawable/ic_clear_black_24dp"
+        android:text="Favourite"
+        android:textColor="@color/colorWhite"
+        android:textSize="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filter" />
+
+    <TextView
+        android:id="@+id/starText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:drawablePadding="20dp"
+        android:drawableRight="@drawable/ic_clear_black_24dp"
+        android:text="Starred"
+        android:textColor="@color/colorWhite"
+        android:textSize="20dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fav" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/applyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/button_bg_apply"
+            android:text="Apply"
+            android:textColor="@color/colorWhite" />
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -11,34 +11,47 @@
             type="com.assignment.notely.ui.viewnote.NoteViewModel" />
     </data>
 
-
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/rootView"
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorGrey"
         android:fitsSystemWindows="true"
-        tools:context=".ui.viewnote.ViewNoteActivity">
+        tools:openDrawer="right">
 
-        <android.support.design.widget.AppBarLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:orientation="vertical">
 
-            <Toolbar
-                android:id="@+id/toolbar"
+            <include
+                layout="@layout/app_bar_default"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                android:title="@string/app_name"
-                tools:targetApi="lollipop" />
+                android:layout_height="wrap_content" />
 
-        </android.support.design.widget.AppBarLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/notesRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/notesRecycler"
-            android:layout_width="match_parent"
+
+        </LinearLayout>
+
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/nav_view_notification"
+            android:layout_width="200dp"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:layout_gravity="right"
+            android:background="#64212121"
+            android:fitsSystemWindows="false">
 
-    </android.support.design.widget.CoordinatorLayout>
+            <include layout="@layout/layout_drawer" />
+        </android.support.design.widget.NavigationView>
+
+
+    </android.support.v4.widget.DrawerLayout>
+
+
 </layout>

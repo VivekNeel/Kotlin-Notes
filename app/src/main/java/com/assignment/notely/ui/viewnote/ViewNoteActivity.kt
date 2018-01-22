@@ -1,10 +1,12 @@
 package com.assignment.notely.ui.viewnote
 
 import android.app.Application
+import android.arch.lifecycle.LifecycleRegistryOwner
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -19,9 +21,13 @@ import com.assignment.notely.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_viewnote.*
 import android.support.v7.widget.helper.ItemTouchHelper
 import com.assignment.notely.RecyclerItemTouchHelper
+import android.arch.lifecycle.LifecycleRegistry
+import android.view.Gravity
+import kotlinx.android.synthetic.main.app_bar_default.*
+import kotlinx.android.synthetic.main.layout_drawer.*
 
 
-class ViewNoteActivity : BaseActivity(), RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+class ViewNoteActivity : AppCompatActivity(), LifecycleRegistryOwner, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int, position: Int) {
         if (viewHolder is ViewNoteAdapter.ViewHolder) {
 
@@ -32,6 +38,12 @@ class ViewNoteActivity : BaseActivity(), RecyclerItemTouchHelper.RecyclerItemTou
 
 
         }
+    }
+
+    private val mRegistry = LifecycleRegistry(this)
+
+    override fun getLifecycle(): LifecycleRegistry {
+        return mRegistry
     }
 
     lateinit var adapter: ViewNoteAdapter
@@ -61,8 +73,8 @@ class ViewNoteActivity : BaseActivity(), RecyclerItemTouchHelper.RecyclerItemTou
 
         val binding = DataBindingUtil.setContentView<ActivityViewnoteBinding>(this, R.layout.activity_viewnote)
         binding.viewModel = noteViewModel
-        setActionBar(binding.toolbar)
-        binding.toolbar.setTitleTextAppearance(this, R.style.CustomToolbarFont)
+        setSupportActionBar(toolbar)
+        toolbar.setTitleTextAppearance(this, R.style.CustomToolbarFont)
         val layoutManager = LinearLayoutManager(this)
         notesRecycler.addItemDecoration(DividerItemDecoration(notesRecycler.context, layoutManager.orientation))
         notesRecycler.layoutManager = layoutManager
@@ -70,6 +82,8 @@ class ViewNoteActivity : BaseActivity(), RecyclerItemTouchHelper.RecyclerItemTou
 
         val itemTouchHelperCallback = RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this)
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(notesRecycler)
+
+        applyButton.setOnClickListener{drawer_layout.closeDrawer(Gravity.RIGHT , true)}
 
 
     }
@@ -88,7 +102,7 @@ class ViewNoteActivity : BaseActivity(), RecyclerItemTouchHelper.RecyclerItemTou
         val id = item.itemId
         when (id) {
             R.id.noteCreate -> noteViewModel.fabClick()
-            R.id.noteFilter -> Log.d("main", "todo")
+            R.id.noteFilter -> drawer_layout.openDrawer(Gravity.RIGHT , true)
         }
         return super.onOptionsItemSelected(item)
     }
