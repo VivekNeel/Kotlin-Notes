@@ -27,6 +27,7 @@ class DetailViewActivity : AppCompatActivity(), LifecycleRegistryOwner {
         return mRegistry
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail_view_note)

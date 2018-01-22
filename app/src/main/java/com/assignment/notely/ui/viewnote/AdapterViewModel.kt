@@ -1,17 +1,14 @@
 package com.assignment.notely.ui.viewnote
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
 import android.content.Intent
 import android.databinding.BaseObservable
-import com.assignment.notely.BR
+import com.assignment.notely.Constants
 import com.assignment.notely.NotelyApplication
 import com.assignment.notely.R
 import com.assignment.notely.db.NoteDatabase
 import com.assignment.notely.db.entities.Note
 import com.assignment.notely.ui.detail.DetailViewActivity
-import com.assignment.notely.ui.newnote.NewNoteActivity
-import kotlinx.android.synthetic.main.item_note_new.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -29,23 +26,28 @@ class AdapterViewModel(var app: Application) : BaseObservable() {
     }
 
     lateinit var note: Note
-    var currentTimeFormat = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
-    var passTimeFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+    private var currentTimeFormat = SimpleDateFormat("MMM dd HH:mm a", Locale.getDefault())
+    private val todayTimeFormat = SimpleDateFormat("HH:mm a", Locale.getDefault())
+
+    private var passTimeFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
 
     fun getNoteTitle() = note.title
     fun getNoteText() = note.description
 
     fun getNoteDate(): String {
         val today = Date()
-        if (note.createdAt.day == today.day && note.createdAt.month == today.month && note.createdAt.year == note.createdAt.year)
-            return currentTimeFormat.format(note.createdAt)
+        return if (note.createdAt.day == today.day) {
+            val time = todayTimeFormat.format(note.createdAt)
+            "Today at $time"
+        } else if (note.createdAt.month == today.month && note.createdAt.year == note.createdAt.year)
+            currentTimeFormat.format(note.createdAt)
         else
-            return passTimeFormat.format(note.createdAt)
+            passTimeFormat.format(note.createdAt)
     }
 
     fun onClick() {
         val intent = Intent(app, DetailViewActivity::class.java)
-        intent.putExtra("noteId", note.id)
+        intent.putExtra(Constants.EXTRAS_NOTE_ID, note.id)
         app.startActivity(intent)
     }
 

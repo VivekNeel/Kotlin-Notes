@@ -38,7 +38,7 @@
                 android:layout_toLeftOf="@id/delete_icon"
                 android:text="delete"
                 android:textColor="#fff"
-                android:textSize="13dp" />
+                android:textSize="13sp" />
 
         </RelativeLayout>
 
@@ -54,13 +54,13 @@
                 android:id="@+id/name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_margin="20dp"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-medium"
                 android:maxLines="1"
                 android:text="@{viewModel.noteText}"
                 android:textColor="@color/colorBlack"
-                android:textSize="17dp"
+                android:textSize="20sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@+id/fav"
                 app:layout_constraintTop_toTopOf="parent"
@@ -68,10 +68,10 @@
 
             <ImageView
                 android:id="@+id/fav"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="20dp"
                 android:onClick="@{() -> viewModel.onFavClick()}"
                 android:src="@{viewModel.note.markedFav ? @drawable/ffilled : @drawable/heart}"
                 app:layout_constraintLeft_toRightOf="@+id/name"
@@ -80,10 +80,10 @@
 
             <ImageView
                 android:id="@+id/star"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="20dp"
                 android:onClick="@{() -> viewModel.onStarredClick()}"
                 android:src="@{viewModel.note.markedStar ? @drawable/sfilled : @drawable/star}"
                 app:layout_constraintLeft_toRightOf="@+id/name"
@@ -95,9 +95,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/name"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="20dp"
                 android:text="@{viewModel.noteText}"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/name" />
 
@@ -106,9 +106,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/name"
-                android:layout_marginLeft="10dp"
+                android:textColor="@color/colorMoreGray"
+                android:layout_marginLeft="20dp"
                 android:text="@{viewModel.noteDate}"
-                android:textSize="12dp"
+                android:textSize="10sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/description" />
 
