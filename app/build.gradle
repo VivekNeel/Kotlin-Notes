@@ -7,6 +7,16 @@ apply plugin: 'kotlin-android-extensions'
 
 def STRING = 'String'
 def BUILD_TIME = 'BUILD_TIME'
+
+ext.versionCodes = ['armeabi': 1, 'armeabi-v7a': 2, 'arm64-v8a': 3, mips: 4, 'x86': 5, 'x86_64': 6]
+import com.android.build.OutputFile
+
+android.applicationVariants.all { variant ->
+    variant.outputs.each { output ->
+        output.versionCodeOverride =
+                project.ext.versionCodes.get(output.getFilter(OutputFile.ABI)) * 1000 + android.defaultConfig.versionCode
+    }
+}
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion "25.0.3"
@@ -21,6 +31,7 @@ android {
         buildConfigField STRING, BUILD_TIME, "\"${rootProject.ext.buildTime}\""
     }
     buildTypes {
+
         release {
             minifyEnabled true
             zipAlignEnabled true
@@ -45,6 +56,15 @@ android {
 
     dexOptions {
         javaMaxHeapSize "4g"
+    }
+
+        splits {
+        abi {
+            enable true
+            reset()
+            include 'x86', 'armeabi', 'armeabi-v7a', 'mips', 'arm64-v8a', 'x86_64'
+            universalApk false
+        }
     }
 }
 

@@ -34,7 +34,6 @@ class NoteAdapter(private var app: Application, private var notelist: MutableLis
     override fun getItemCount(): Int = notelist.size
 
     class ViewHolder(var binding: ItemNoteBinding) : RecyclerView.ViewHolder(binding.root) {
-        var viewBackground = itemView.view_background
         val viewForeground = itemView.view_background
     }
 
