@@ -18,7 +18,8 @@
 
         <RelativeLayout
             android:id="@+id/view_background"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
+            android:layout_gravity="right"
             android:layout_height="match_parent"
             android:background="@color/bg_row_background">
 
@@ -28,7 +29,7 @@
                 android:layout_height="@dimen/ic_delete"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/filter" />
+                android:src="@drawable/ic_delete_forever_black_24dp" />
 
             <TextView
                 android:layout_width="wrap_content"

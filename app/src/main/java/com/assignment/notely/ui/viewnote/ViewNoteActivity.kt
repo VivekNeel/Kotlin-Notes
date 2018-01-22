@@ -26,55 +26,66 @@ import kotlinx.android.synthetic.main.layout_drawer.*
 
 
 class ViewNoteActivity : AppCompatActivity(), LifecycleRegistryOwner, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+
+    private val mRegistry = LifecycleRegistry(this)
+    private lateinit var noteAdapter: NoteAdapter
+    private lateinit var noteViewModel: NoteViewModel
+
+
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int, position: Int) {
-        if (viewHolder is ViewNoteAdapter.ViewHolder) {
-
-            val deletedIndex = viewHolder.itemId
-
-            // remove the item from recycler view
-            adapter.removeItem(viewHolder.adapterPosition)
-
+        if (viewHolder is NoteAdapter.ViewHolder) {
+            noteAdapter.removeItem(viewHolder.adapterPosition)
 
         }
     }
-
-    private val mRegistry = LifecycleRegistry(this)
-
-    override fun getLifecycle(): LifecycleRegistry {
-        return mRegistry
-    }
-
-    lateinit var adapter: ViewNoteAdapter
-    lateinit var noteViewModel: NoteViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         init()
     }
 
+    private fun init() {
+        initViewmodel()
+        setupToolbar()
+        setupRecyclerView()
+        setupListeners()
 
-    fun init() {
+    }
+
+    private fun initViewmodel() {
         noteViewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
-        adapter = ViewNoteAdapter(application as Application, emptyList())
+        noteAdapter = NoteAdapter(application as Application, mutableListOf())
 
         noteViewModel.getNotes().observe(this, Observer {
             if (it != null)
-                fillRecycler(it)
+                populateList(it)
         })
 
 
         val binding = DataBindingUtil.setContentView<ActivityViewnoteBinding>(this, R.layout.activity_viewnote)
         binding.viewModel = noteViewModel
+
+    }
+
+    private fun setupToolbar() {
         setSupportActionBar(toolbar)
         toolbar.setTitleTextAppearance(this, R.style.CustomToolbarFont)
+
+
+    }
+
+    private fun setupRecyclerView() {
         val layoutManager = LinearLayoutManager(this)
         notesRecycler.addItemDecoration(DividerItemDecoration(notesRecycler.context, layoutManager.orientation))
         notesRecycler.layoutManager = layoutManager
-        notesRecycler.adapter = adapter
+        notesRecycler.adapter = noteAdapter
 
         val itemTouchHelperCallback = RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this)
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(notesRecycler)
 
+    }
+
+    private fun setupListeners() {
         fav.setOnClickListener {
             com.assignment.notely.model.Filter.markedFav = !com.assignment.notely.model.Filter.markedFav
             if (com.assignment.notely.model.Filter.markedFav) {
@@ -99,42 +110,38 @@ class ViewNoteActivity : AppCompatActivity(), LifecycleRegistryOwner, RecyclerIt
                 if (markedFav && markedStar) {
                     noteViewModel.getFavAndStarredNotes().observe(this@ViewNoteActivity, Observer {
                         if (it != null) {
-                            var list = it
-                            fillRecycler(list)
+                            populateList(it)
                         }
                     })
                 } else if (markedFav) {
                     noteViewModel.getFav().observe(this@ViewNoteActivity, Observer {
                         if (it != null) {
-                            var list = it
-                            fillRecycler(list)
+                            populateList(it)
                         }
                     })
                 } else if (markedStar) {
                     noteViewModel.getStarred().observe(this@ViewNoteActivity, Observer {
                         if (it != null) {
-                            var list = it
-                            fillRecycler(list)
+                            populateList(it)
                         }
                     })
 
 
-                } else{
+                } else {
                     noteViewModel.getNotes().observe(this@ViewNoteActivity, Observer {
                         if (it != null)
-                            fillRecycler(it)
+                            populateList(it)
                     })
 
                 }
             }
         }
 
-
     }
 
-    private fun fillRecycler(list: List<Note>) {
-        adapter.addItems(list)
-        adapter.notifyDataSetChanged()
+    private fun populateList(list: MutableList<Note>) {
+        noteAdapter.addItems(list)
+        noteAdapter.notifyDataSetChanged()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -149,5 +156,9 @@ class ViewNoteActivity : AppCompatActivity(), LifecycleRegistryOwner, RecyclerIt
             R.id.noteFilter -> drawer_layout.openDrawer(Gravity.RIGHT, true)
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun getLifecycle(): LifecycleRegistry {
+        return mRegistry
     }
 }

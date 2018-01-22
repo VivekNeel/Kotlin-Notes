@@ -16,7 +16,7 @@ import javax.inject.Inject
  */
 class NoteViewModel(var app: Application) : AndroidViewModel(app) {
 
-    private var notes: LiveData<List<Note>>? = null
+    private var notes: LiveData<MutableList<Note>>? = null
 
     @Inject
     lateinit var db: NoteDatabase
@@ -26,17 +26,17 @@ class NoteViewModel(var app: Application) : AndroidViewModel(app) {
 
     }
 
-    fun getFav(): LiveData<List<Note>> =
+    fun getFav(): LiveData<MutableList<Note>> =
             db.noteDao().getFavNotes()
 
-    fun getStarred(): LiveData<List<Note>> = db.noteDao().getStarredNotes()
+    fun getStarred(): LiveData<MutableList<Note>> = db.noteDao().getStarredNotes()
 
-    fun getFavAndStarredNotes(): LiveData<List<Note>> = db.noteDao().getFavAndStarredNotes()
+    fun getFavAndStarredNotes(): LiveData<MutableList<Note>> = db.noteDao().getFavAndStarredNotes()
 
 
-    fun getNotes(): LiveData<List<Note>> {
+    fun getNotes(): LiveData<MutableList<Note>> {
         if (notes == null) {
-            notes = MutableLiveData<List<Note>>()
+            notes = MutableLiveData<MutableList<Note>>()
             loadNotes()
         }
 

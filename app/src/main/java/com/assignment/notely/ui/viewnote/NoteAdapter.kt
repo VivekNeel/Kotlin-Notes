@@ -6,17 +6,15 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.assignment.notely.R
-import com.assignment.notely.databinding.ItemNoteBinding
 import com.assignment.notely.databinding.ItemNoteNewBinding
 import com.assignment.notely.db.entities.Note
 import kotlinx.android.synthetic.main.item_note_new.view.*
-import android.content.ClipData.Item
 
 
 /**
  * Created by vivek on 21/01/18.
  */
-class ViewNoteAdapter(private var app: Application, var notelist: List<Note>) : RecyclerView.Adapter<ViewNoteAdapter.ViewHolder>() {
+class NoteAdapter(private var app: Application, var notelist: MutableList<Note>) : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
 
 
     lateinit var binding: ItemNoteNewBinding
@@ -40,24 +38,16 @@ class ViewNoteAdapter(private var app: Application, var notelist: List<Note>) : 
         val viewForeground = itemView.view_background
     }
 
-    fun addItems(list: List<Note>) {
+    fun addItems(list: MutableList<Note>) {
         notelist = list
         notifyDataSetChanged()
     }
 
     fun removeItem(position: Int) {
-//        notelist.remove(position)
-//        // notify the item removed by position
-//        // to perform recycler view delete animations
-//        // NOTE: don't call notifyDataSetChanged()
-//        notifyItemRemoved(position)
         binding.viewModel.deleteNote(notelist[position])
+        notelist.removeAt(position)
+        notifyItemRemoved(position)
 
-    }
 
-    fun restoreItem(item: Item, position: Int) {
-//        cartList.add(position, item)
-//        // notify item added by position
-//        notifyItemInserted(position)
     }
 }

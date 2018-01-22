@@ -12,7 +12,7 @@ import com.assignment.notely.db.entities.RoomConfig
 interface NoteDao {
 
     @Query(RoomConfig.QUERY_NOTE_ALL)
-    fun getNotes(): LiveData<List<Note>>
+    fun getNotes(): LiveData<MutableList<Note>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertNote(note: Note)
@@ -21,13 +21,13 @@ interface NoteDao {
     fun getNote(noteId: Int): Note
 
     @Query(RoomConfig.QUERY_NOTE_FAV)
-    fun getFavNotes(): LiveData<List<Note>>
+    fun getFavNotes(): LiveData<MutableList<Note>>
 
     @Query(RoomConfig.QUERY_NOTE_STARRED)
-    fun getStarredNotes(): LiveData<List<Note>>
+    fun getStarredNotes(): LiveData<MutableList<Note>>
 
     @Query(RoomConfig.QUERY_NOTE_STARRED_FAV)
-    fun getFavAndStarredNotes(): LiveData<List<Note>>
+    fun getFavAndStarredNotes(): LiveData<MutableList<Note>>
 
     @Delete
     fun deleteNote(note: Note)
