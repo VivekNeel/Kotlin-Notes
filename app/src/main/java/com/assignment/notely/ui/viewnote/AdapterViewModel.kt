@@ -3,11 +3,15 @@ package com.assignment.notely.ui.viewnote
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.content.Intent
+import android.databinding.BaseObservable
+import com.assignment.notely.BR
 import com.assignment.notely.NotelyApplication
+import com.assignment.notely.R
 import com.assignment.notely.db.NoteDatabase
 import com.assignment.notely.db.entities.Note
 import com.assignment.notely.ui.detail.DetailViewActivity
 import com.assignment.notely.ui.newnote.NewNoteActivity
+import kotlinx.android.synthetic.main.item_note_new.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -15,7 +19,7 @@ import javax.inject.Inject
 /**
  * Created by vivek on 21/01/18.
  */
-class AdapterViewModel(var app: Application) : AndroidViewModel(app) {
+class AdapterViewModel(var app: Application) : BaseObservable() {
 
     @Inject
     lateinit var db: NoteDatabase
@@ -49,14 +53,21 @@ class AdapterViewModel(var app: Application) : AndroidViewModel(app) {
         Thread({
             note.markedFav = true
             db.noteDao().insertNote(note)
+            notifyPropertyChanged(R.id.fav)
+            notifyChange()
         }).start()
+
+
     }
 
     fun onStarredClick() {
         Thread({
             note.markedStar = true
             db.noteDao().insertNote(note)
+            notifyPropertyChanged(R.id.star)
+            notifyChange()
         }).start()
+
     }
 
     fun deleteNote(note: Note) {

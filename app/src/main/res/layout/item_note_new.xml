@@ -72,7 +72,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:onClick="@{() -> viewModel.onFavClick()}"
-                android:src="@drawable/ffilled"
+                android:src="@{viewModel.note.markedFav ? @drawable/ffilled : @drawable/heart}"
                 app:layout_constraintLeft_toRightOf="@+id/name"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -83,8 +83,8 @@
                 android:layout_height="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/sfilled"
                 android:onClick="@{() -> viewModel.onStarredClick()}"
+                android:src="@{viewModel.note.markedStar ? @drawable/sfilled : @drawable/star}"
                 app:layout_constraintLeft_toRightOf="@+id/name"
                 app:layout_constraintRight_toLeftOf="@+id/fav"
                 app:layout_constraintTop_toTopOf="parent" />
