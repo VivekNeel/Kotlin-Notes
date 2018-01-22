@@ -19,4 +19,5 @@ class Note {
     var description: String = ""
     var createdAt: Date = Date()
     var markedFav : Boolean  = false
+    var markedStar : Boolean = false
 }

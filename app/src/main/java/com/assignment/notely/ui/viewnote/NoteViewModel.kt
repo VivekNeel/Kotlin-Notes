@@ -29,6 +29,10 @@ class NoteViewModel(var app: Application) : AndroidViewModel(app) {
     fun getFav(): LiveData<List<Note>> =
             db.noteDao().getFavNotes()
 
+    fun getStarred(): LiveData<List<Note>> = db.noteDao().getStarredNotes()
+
+    fun getFavAndStarredNotes(): LiveData<List<Note>> = db.noteDao().getFavAndStarredNotes()
+
 
     fun getNotes(): LiveData<List<Note>> {
         if (notes == null) {

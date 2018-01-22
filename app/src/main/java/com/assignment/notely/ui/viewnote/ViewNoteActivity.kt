@@ -8,20 +8,18 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.assignment.notely.R
 import com.assignment.notely.databinding.ActivityViewnoteBinding
 import com.assignment.notely.db.entities.Note
-import com.assignment.notely.ui.BaseActivity
 import kotlinx.android.synthetic.main.activity_viewnote.*
 import android.support.v7.widget.helper.ItemTouchHelper
 import com.assignment.notely.RecyclerItemTouchHelper
 import android.arch.lifecycle.LifecycleRegistry
+import android.graphics.Color
 import android.view.Gravity
 import kotlinx.android.synthetic.main.app_bar_default.*
 import kotlinx.android.synthetic.main.layout_drawer.*
@@ -64,12 +62,6 @@ class ViewNoteActivity : AppCompatActivity(), LifecycleRegistryOwner, RecyclerIt
                 fillRecycler(it)
         })
 
-        noteViewModel.getFav().observe(this, Observer {
-            if (it != null) {
-                var list = it
-            }
-        })
-
 
         val binding = DataBindingUtil.setContentView<ActivityViewnoteBinding>(this, R.layout.activity_viewnote)
         binding.viewModel = noteViewModel
@@ -83,7 +75,59 @@ class ViewNoteActivity : AppCompatActivity(), LifecycleRegistryOwner, RecyclerIt
         val itemTouchHelperCallback = RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this)
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(notesRecycler)
 
-        applyButton.setOnClickListener{drawer_layout.closeDrawer(Gravity.RIGHT , true)}
+        fav.setOnClickListener {
+            com.assignment.notely.model.Filter.markedFav = !com.assignment.notely.model.Filter.markedFav
+            if (com.assignment.notely.model.Filter.markedFav) {
+                fav.setTextColor(Color.GREEN)
+            } else {
+                fav.setTextColor(Color.WHITE)
+            }
+        }
+
+        starText.setOnClickListener {
+            com.assignment.notely.model.Filter.markedStar = !com.assignment.notely.model.Filter.markedStar
+            if (com.assignment.notely.model.Filter.markedStar) {
+                starText.setTextColor(Color.GREEN)
+            } else {
+                starText.setTextColor(Color.WHITE)
+            }
+        }
+
+        applyButton.setOnClickListener {
+            drawer_layout.closeDrawer(Gravity.RIGHT, true)
+            with(com.assignment.notely.model.Filter) {
+                if (markedFav && markedStar) {
+                    noteViewModel.getFavAndStarredNotes().observe(this@ViewNoteActivity, Observer {
+                        if (it != null) {
+                            var list = it
+                            fillRecycler(list)
+                        }
+                    })
+                } else if (markedFav) {
+                    noteViewModel.getFav().observe(this@ViewNoteActivity, Observer {
+                        if (it != null) {
+                            var list = it
+                            fillRecycler(list)
+                        }
+                    })
+                } else if (markedStar) {
+                    noteViewModel.getStarred().observe(this@ViewNoteActivity, Observer {
+                        if (it != null) {
+                            var list = it
+                            fillRecycler(list)
+                        }
+                    })
+
+
+                } else{
+                    noteViewModel.getNotes().observe(this@ViewNoteActivity, Observer {
+                        if (it != null)
+                            fillRecycler(it)
+                    })
+
+                }
+            }
+        }
 
 
     }
@@ -102,7 +146,7 @@ class ViewNoteActivity : AppCompatActivity(), LifecycleRegistryOwner, RecyclerIt
         val id = item.itemId
         when (id) {
             R.id.noteCreate -> noteViewModel.fabClick()
-            R.id.noteFilter -> drawer_layout.openDrawer(Gravity.RIGHT , true)
+            R.id.noteFilter -> drawer_layout.openDrawer(Gravity.RIGHT, true)
         }
         return super.onOptionsItemSelected(item)
     }

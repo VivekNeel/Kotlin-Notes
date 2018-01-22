@@ -8,7 +8,7 @@ import com.assignment.notely.db.entities.Note
 /**
  * Created by vivek on 21/01/18.
  */
-@Database(entities = arrayOf(Note::class), version = 2)
+@Database(entities = arrayOf(Note::class), version = 3)
 abstract class NoteDatabase : RoomDatabase() {
     abstract fun noteDao(): NoteDao
 }

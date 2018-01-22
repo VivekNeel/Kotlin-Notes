@@ -52,6 +52,13 @@ class AdapterViewModel(var app: Application) : AndroidViewModel(app) {
         }).start()
     }
 
+    fun onStarredClick() {
+        Thread({
+            note.markedStar = true
+            db.noteDao().insertNote(note)
+        }).start()
+    }
+
     fun deleteNote(note: Note) {
         Thread({ db.noteDao().deleteNote(note) })
     }

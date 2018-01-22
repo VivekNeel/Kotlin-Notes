@@ -23,6 +23,12 @@ interface NoteDao {
     @Query(RoomConfig.QUERY_NOTE_FAV)
     fun getFavNotes(): LiveData<List<Note>>
 
+    @Query(RoomConfig.QUERY_NOTE_STARRED)
+    fun getStarredNotes(): LiveData<List<Note>>
+
+    @Query(RoomConfig.QUERY_NOTE_STARRED_FAV)
+    fun getFavAndStarredNotes(): LiveData<List<Note>>
+
     @Delete
     fun deleteNote(note: Note)
 

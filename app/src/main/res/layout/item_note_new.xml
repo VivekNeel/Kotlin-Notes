@@ -84,6 +84,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/sfilled"
+                android:onClick="@{() -> viewModel.onStarredClick()}"
                 app:layout_constraintLeft_toRightOf="@+id/name"
                 app:layout_constraintRight_toLeftOf="@+id/fav"
                 app:layout_constraintTop_toTopOf="parent" />
